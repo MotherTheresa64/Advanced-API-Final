@@ -1,0 +1,211 @@
+{
+	"info": {
+		"_postman_id": "c32f0477-49c5-4e05-86e7-479e5d4592ad",
+		"name": "Advanced API Final (Live on Render)",
+		"description": "Test suite for Advanced API Final, live at https://advanced-api-final.onrender.com",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45106284",
+		"_collection_link": "https://noahragan.postman.co/workspace/Noah-Ragan's-Workspace~68ad47a2-19bb-4e20-8e9a-47e6548a58c7/collection/45106284-c32f0477-49c5-4e05-86e7-479e5d4592ad?action=share&source=collection_link&creator=45106284"
+	},
+	"item": [
+		{
+			"name": "Get All Mechanics",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/mechanics/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"mechanics",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Mechanic by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/mechanics/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"mechanics",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Mechanic",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"John\",\n  \"specialty\": \"Brakes\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/mechanics/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"mechanics",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Mechanic",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"John Updated\",\n  \"specialty\": \"Transmission\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/mechanics/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"mechanics",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Mechanic",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/mechanics/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"mechanics",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Service Tickets",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/service-tickets/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"service-tickets",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Service Ticket",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"description\": \"Fix brakes\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/service-tickets/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"service-tickets",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assign Mechanic to Service Ticket",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/service-tickets/1/assign-mechanic/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"service-tickets",
+						"1",
+						"assign-mechanic",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Mechanic from Service Ticket",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/service-tickets/1/remove-mechanic/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"service-tickets",
+						"1",
+						"remove-mechanic",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://advanced-api-final.onrender.com"
+		}
+	]
+}
