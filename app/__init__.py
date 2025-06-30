@@ -17,4 +17,9 @@ def create_app(config_object):
     app.register_blueprint(mechanic_bp, url_prefix='/mechanics')
     app.register_blueprint(service_ticket_bp, url_prefix='/service-tickets')
 
+    # --- AUTO CREATE TABLES IF THEY DON'T EXIST (Render Free Tier Workaround) ---
+    with app.app_context():
+        db.create_all()
+    # ---------------------------------------------------------------------------
+
     return app
