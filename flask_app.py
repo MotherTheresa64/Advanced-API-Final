@@ -1,19 +1,26 @@
 # flask_app.py
+
+from flask import redirect
+from flasgger import Swagger           # ← import Swagger
 from app import create_app
 from app.config import ProductionConfig
 
 app = create_app(ProductionConfig)
-from flask import redirect   # ← add this import
-from app import create_app
-from app.config import ProductionConfig
 
-app = create_app(ProductionConfig)
+# Initialize Swagger UI here
+swagger = Swagger(app,               # this will serve the UI at /apidocs
+                  template={
+                      "swagger": "2.0",
+                      "info": {
+                          "title": "Advanced API Final",
+                          "description": "Mechanics & Service Tickets API",
+                          "version": "1.0"
+                      },
+                      "schemes": ["https"],
+                      "host": "advanced-api-final.onrender.com"  # your Render host
+                  })
 
-# Health check & convenience redirect
 @app.route("/", methods=["GET", "HEAD"])
 def index():
-    # Option A: simple OK message
-    # return "API is live!", 200
-
-    # Option B: redirect to your Swagger docs
+    # Redirect users (and Render health checks) to the Swagger UI
     return redirect("/apidocs")
