@@ -7,3 +7,4 @@ gunicorn
 psycopg2-binary
 flake8
 pytest
+flasgger==0.9.5
