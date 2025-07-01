@@ -5,6 +5,7 @@ from app.models import Mechanic
 
 mechanic_bp = Blueprint('mechanic_bp', __name__)
 
+
 @mechanic_bp.route('/', methods=['POST'])
 def create_mechanic():
     """
@@ -37,6 +38,7 @@ def create_mechanic():
     db.session.commit()
     return mechanic_schema.jsonify(new_mech), 201
 
+
 @mechanic_bp.route('/', methods=['GET'])
 def get_mechanics():
     """
@@ -56,6 +58,7 @@ def get_mechanics():
     """
     mechanics = Mechanic.query.all()
     return mechanics_schema.jsonify(mechanics), 200
+
 
 @mechanic_bp.route('/<int:id>', methods=['PUT'])
 def update_mechanic(id):
@@ -97,6 +100,7 @@ def update_mechanic(id):
     mech.specialty = data.get('specialty', mech.specialty)
     db.session.commit()
     return mechanic_schema.jsonify(mech), 200
+
 
 @mechanic_bp.route('/<int:id>', methods=['DELETE'])
 def delete_mechanic(id):

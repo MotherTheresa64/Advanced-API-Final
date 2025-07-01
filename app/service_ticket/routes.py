@@ -5,6 +5,7 @@ from app.models import ServiceTicket, Mechanic
 
 service_ticket_bp = Blueprint('service_ticket_bp', __name__)
 
+
 @service_ticket_bp.route('/', methods=['POST'])
 def create_ticket():
     """
@@ -41,6 +42,7 @@ def create_ticket():
     db.session.commit()
     return service_ticket_schema.jsonify(ticket), 201
 
+
 @service_ticket_bp.route('/', methods=['GET'])
 def get_tickets():
     """
@@ -61,7 +63,10 @@ def get_tickets():
     tickets = ServiceTicket.query.all()
     return service_tickets_schema.jsonify(tickets), 200
 
-@service_ticket_bp.route('/<int:ticket_id>/assign-mechanic/<int:mechanic_id>', methods=['PUT'])
+
+@service_ticket_bp.route(
+    '/<int:ticket_id>/assign-mechanic/<int:mechanic_id>',
+    methods=['PUT'])
 def assign_mechanic(ticket_id, mechanic_id):
     """
     Assign a mechanic to a ticket
@@ -90,13 +95,16 @@ def assign_mechanic(ticket_id, mechanic_id):
         description: Ticket or Mechanic not found
     """
     ticket = ServiceTicket.query.get_or_404(ticket_id)
-    mech   = Mechanic.query.get_or_404(mechanic_id)
+    mech = Mechanic.query.get_or_404(mechanic_id)
     if mech not in ticket.mechanics:
         ticket.mechanics.append(mech)
         db.session.commit()
     return service_ticket_schema.jsonify(ticket), 200
 
-@service_ticket_bp.route('/<int:ticket_id>/remove-mechanic/<int:mechanic_id>', methods=['PUT'])
+
+@service_ticket_bp.route(
+    '/<int:ticket_id>/remove-mechanic/<int:mechanic_id>',
+    methods=['PUT'])
 def remove_mechanic(ticket_id, mechanic_id):
     """
     Remove a mechanic from a ticket
@@ -125,7 +133,7 @@ def remove_mechanic(ticket_id, mechanic_id):
         description: Ticket or Mechanic not found
     """
     ticket = ServiceTicket.query.get_or_404(ticket_id)
-    mech   = Mechanic.query.get_or_404(mechanic_id)
+    mech = Mechanic.query.get_or_404(mechanic_id)
     if mech in ticket.mechanics:
         ticket.mechanics.remove(mech)
         db.session.commit()

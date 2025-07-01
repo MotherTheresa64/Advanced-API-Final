@@ -1,5 +1,3 @@
-# tests/test_mechanic.py
-
 def test_create_mechanic(client):
     resp = client.post("/mechanics/", json={
         "name": "Bob",

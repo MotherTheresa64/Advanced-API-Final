@@ -1,5 +1,3 @@
-# app/service_ticket/schemas.py
-
 from app import ma
 from app.models import ServiceTicket
 from app.mechanic.schemas import MechanicSchema

@@ -1,6 +1,5 @@
-# app/config.py
-
 import os
+
 
 class Config:
     """Base configuration with default settings."""

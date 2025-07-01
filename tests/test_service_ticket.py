@@ -1,5 +1,3 @@
-# tests/test_service_ticket.py
-
 def test_create_ticket(client):
     resp = client.post("/service-tickets/", json={
         "description": "Fix brakes"

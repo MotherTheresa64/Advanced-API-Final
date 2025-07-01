@@ -1,6 +1,5 @@
-# run.py
 from app import create_app
-from app.config import Config
+from app.config import Config  # local dev/testing
 
 app = create_app(Config)
 
