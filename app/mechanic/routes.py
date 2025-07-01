@@ -1,41 +1,38 @@
+# app/mechanic/routes.py
 from flask import Blueprint, request, jsonify
 from app import db
 from .schemas import mechanic_schema, mechanics_schema
 from app.models import Mechanic
 
-mechanic_bp = Blueprint('mechanic_bp', __name__)
+mechanic_bp = Blueprint("mechanic_bp", __name__)
 
-@mechanic_bp.route('/', methods=['POST'])
+@mechanic_bp.route("/", methods=["POST"])
 def create_mechanic():
-    data = request.get_json()
-    if not data or 'name' not in data or 'specialty' not in data:
+    data = request.get_json() or {}
+    if not data.get("name") or not data.get("specialty"):
         return jsonify({"error": "Missing required fields"}), 400
-    try:
-        new_mechanic = Mechanic(name=data['name'], specialty=data['specialty'])
-        db.session.add(new_mechanic)
-        db.session.commit()
-        return mechanic_schema.jsonify(new_mechanic), 201
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({'error': str(e)}), 500
+    mech = Mechanic(name=data["name"], specialty=data["specialty"])
+    db.session.add(mech)
+    db.session.commit()
+    return mechanic_schema.jsonify(mech), 201
 
-@mechanic_bp.route('/', methods=['GET'])
+@mechanic_bp.route("/", methods=["GET"])
 def get_mechanics():
-    mechanics = Mechanic.query.all()
-    return mechanics_schema.jsonify(mechanics), 200
+    all_mech = Mechanic.query.all()
+    return mechanics_schema.jsonify(all_mech), 200
 
-@mechanic_bp.route('/<int:id>', methods=['PUT'])
+@mechanic_bp.route("/<int:id>", methods=["PUT"])
 def update_mechanic(id):
-    mechanic = Mechanic.query.get_or_404(id)
-    data = request.get_json()
-    mechanic.name = data.get('name', mechanic.name)
-    mechanic.specialty = data.get('specialty', mechanic.specialty)
+    mech = Mechanic.query.get_or_404(id)
+    data = request.get_json() or {}
+    mech.name = data.get("name", mech.name)
+    mech.specialty = data.get("specialty", mech.specialty)
     db.session.commit()
-    return mechanic_schema.jsonify(mechanic), 200
+    return mechanic_schema.jsonify(mech), 200
 
-@mechanic_bp.route('/<int:id>', methods=['DELETE'])
+@mechanic_bp.route("/<int:id>", methods=["DELETE"])
 def delete_mechanic(id):
-    mechanic = Mechanic.query.get_or_404(id)
-    db.session.delete(mechanic)
+    mech = Mechanic.query.get_or_404(id)
+    db.session.delete(mech)
     db.session.commit()
-    return '', 204
+    return "", 204
