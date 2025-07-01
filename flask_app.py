@@ -7,10 +7,10 @@ import importlib.machinery
 import flask.json
 from flask.json.provider import DefaultJSONProvider
 
-# 1) Give flask.json a JSONEncoder alias Flasgger expects  
+# 1) Alias JSONEncoder so Flasgger can import it
 flask.json.JSONEncoder = DefaultJSONProvider
 
-# 2) Inject a fake imp module so Flasgger.utils can import it  
+# 2) Stub out imp so Flasgger.utils works
 _imp = types.ModuleType("imp")
 def _load_module(name, path):
     loader = importlib.machinery.SourceFileLoader(name, path)
@@ -18,7 +18,7 @@ def _load_module(name, path):
 _imp.load_module = _load_module
 _imp.load_source = _load_module
 sys.modules["imp"] = _imp
-# ———————————————————————————————————————————————————————————————
+# ——————————————————————————————————————————————————————————————
 
 from flask import redirect
 from flasgger import Swagger
@@ -36,12 +36,34 @@ swagger = Swagger(
             "description": "Mechanics & Service Tickets API",
             "version": "1.0"
         },
-        "host": "advanced-api-final.onrender.com",
+        "host": "advanced-api-final.onrender.com",  # no https://
         "schemes": ["https"],
-        "basePath": "/"
+        "basePath": "/",
+        "definitions": {
+            "Mechanic": {
+                "type": "object",
+                "properties": {
+                    "id":         {"type": "integer", "readOnly": True},
+                    "name":       {"type": "string"},
+                    "specialty":  {"type": "string"}
+                }
+            },
+            "ServiceTicket": {
+                "type": "object",
+                "properties": {
+                    "id":          {"type": "integer", "readOnly": True},
+                    "description": {"type": "string"},
+                    "is_open":     {"type": "boolean"},
+                    "mechanics": {
+                        "type": "array",
+                        "items": {"$ref": "#/definitions/Mechanic"}
+                    }
+                }
+            }
+        }
     }
 )
 
 @app.route("/", methods=["GET", "HEAD"])
 def index():
-    return redirect("/apidocs")
+    return redirect("/apidocs/")
