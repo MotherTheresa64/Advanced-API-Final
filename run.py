@@ -1,6 +1,5 @@
 from flask_app import app
 
 if __name__ == "__main__":
-    # this will pick up everything you wired up in flask_app.py,
-    # including your Swagger docs and root redirect
+    # runs on http://127.0.0.1:5000 in debug mode
     app.run(debug=True)

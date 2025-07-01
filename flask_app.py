@@ -1,63 +1,32 @@
-# flask_app.py
-
-# ─── Monkey-patch Flask’s JSONEncoder for Flasgger compatibility ───
-import flask.json
-from flask.json.provider import DefaultJSONProvider
-
-flask.json.JSONEncoder = DefaultJSONProvider
-# ────────────────────────────────────────────────────────────────
-
-
-from app import create_app
-from app.config import ProductionConfig
 from flask import redirect
 from flasgger import Swagger
+from app import create_app
+from app.config import ProductionConfig
 
-
+# create the Flask app using your ProductionConfig
 app = create_app(ProductionConfig)
 
-
-Swagger(
-    app,
-    template={
-        "swagger": "2.0",
-        "info": {
-            "title": "Advanced API Final",
-            "description": "Mechanics & Service Tickets API",
-            "version": "1.0"
-        },
-        "host": "advanced-api-final.onrender.com",
-        "schemes": ["https"],
-        "basePath": "/",
-        "definitions": {
-            "Mechanic": {
-                "type": "object",
-                "properties": {
-                    "id":        {"type": "integer", "readOnly": True},
-                    "name":      {"type": "string"},
-                    "specialty": {"type": "string"}
-                }
-            },
-            "ServiceTicket": {
-                "type": "object",
-                "properties": {
-                    "id":          {"type": "integer", "readOnly": True},
-                    "description": {"type": "string"},
-                    "is_open":     {"type": "boolean"},
-                    "mechanics": {
-                        "type":  "array",
-                        "items": {"$ref": "#/definitions/Mechanic"}
-                    }
-                }
-            }
+# configure and initialize Flasgger / Swagger UI
+swagger_config = {
+    "headers": [],
+    "specs": [
+        {
+            "endpoint": "apispec",
+            "route": "/apispec.json",
+            "rule_filter": lambda rule: True,
+            "model_filter": lambda tag: True,
         }
-    }
-)
+    ],
+    "static_url_path": "/flasgger_static",
+    "swagger_ui": True,
+    "specs_route": "/apidocs/"
+}
+Swagger(app, config=swagger_config)
 
 
 @app.route("/", methods=["GET", "HEAD"])
-def index():
+def root_redirect():
     """
-    Redirect root to Swagger UI.
+    Redirect the root URL to /apidocs/ so users land on your Swagger UI.
     """
     return redirect("/apidocs/")
