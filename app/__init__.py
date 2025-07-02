@@ -6,6 +6,7 @@ from flask_marshmallow import Marshmallow
 db = SQLAlchemy()
 ma = Marshmallow()
 
+
 def create_app(config_class=None):
     app = Flask(__name__)
 
